@@ -1,0 +1,28 @@
+-- Aggregates POS and online sales events into one-minute store/product totals.
+-- Input: pos-sales Event Hub. Output: Synapse staging table stg.sales_minute.
+
+WITH Clean AS (
+    SELECT
+        StoreCode,
+        Sku,
+        CAST(Quantity AS bigint)           AS Quantity,
+        CAST(LineAmount AS float)          AS LineAmount,
+        CAST(DiscountAmount AS float)      AS DiscountAmount,
+        IsReturn,
+        EventTime
+    FROM [pos-sales] TIMESTAMP BY EventTime
+    WHERE StoreCode IS NOT NULL
+      AND Sku IS NOT NULL
+)
+SELECT
+    StoreCode,
+    Sku,
+    System.Timestamp()                                        AS WindowEnd,
+    SUM(CASE WHEN IsReturn = 1 THEN 0 ELSE Quantity END)      AS UnitsSold,
+    SUM(CASE WHEN IsReturn = 1 THEN 0 ELSE LineAmount END)    AS GrossSales,
+    SUM(DiscountAmount)                                       AS Discounts,
+    SUM(CASE WHEN IsReturn = 1 THEN LineAmount ELSE 0 END)    AS Returns,
+    COUNT(*)                                                  AS EventCount
+INTO [synapse-sales-minute]
+FROM Clean
+GROUP BY StoreCode, Sku, TumblingWindow(minute, 1)
