@@ -1,0 +1,30 @@
+{
+  "name": "pl_erp_crm_incremental_load",
+  "properties": {
+    "description": "Loads changed ERP stock, product and purchase order data and CRM loyalty data every 15 minutes.",
+    "activities": [
+      {
+        "name": "CopyErpStockChanges",
+        "type": "Copy",
+        "inputs": [{ "referenceName": "ds_erp_stock_changes", "type": "DatasetReference" }],
+        "outputs": [{ "referenceName": "ds_lake_raw_erp_stock", "type": "DatasetReference" }]
+      },
+      {
+        "name": "CopyCrmLoyaltyChanges",
+        "type": "Copy",
+        "inputs": [{ "referenceName": "ds_crm_loyalty_changes", "type": "DatasetReference" }],
+        "outputs": [{ "referenceName": "ds_lake_raw_crm_loyalty", "type": "DatasetReference" }]
+      },
+      {
+        "name": "RunDataQualityRules",
+        "type": "SqlServerStoredProcedure",
+        "dependsOn": [
+          { "activity": "CopyErpStockChanges", "dependencyConditions": ["Succeeded"] },
+          { "activity": "CopyCrmLoyaltyChanges", "dependencyConditions": ["Succeeded"] }
+        ],
+        "typeProperties": { "storedProcedureName": "dq.usp_run_rules" }
+      }
+    ],
+    "annotations": ["WBS 3.3"]
+  }
+}
