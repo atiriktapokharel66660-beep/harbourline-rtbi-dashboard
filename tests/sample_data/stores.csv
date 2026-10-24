@@ -1,0 +1,6 @@
+store_code,store_name,state,channel
+NSW01,Sydney CBD,NSW,Store
+NSW02,Parramatta,NSW,Store
+VIC01,Melbourne Central,VIC,Store
+VIC02,Geelong,VIC,Store
+WEB01,Online Store,NSW,Online
