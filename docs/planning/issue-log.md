@@ -3,6 +3,8 @@
 Priorities: P1 same day (sponsor within 24 h), P2 within 2 business days, P3 within the sprint.
 New issues are raised with the **Issue** issue template.
 
+> The entries below are illustrative examples of how the log will be used during delivery. They are not real project events.
+
 | ID | Issue | Priority | Owner | Action / status |
 |---|---|---|---|---|
 | I-01 | Two pilot stores send POS data with the wrong time zone | P2 | Data engineer | Time zone conversion added to stream job; closed |
