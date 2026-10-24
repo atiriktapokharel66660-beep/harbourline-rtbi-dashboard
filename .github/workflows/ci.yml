@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+jobs:
+  checks:
+    name: Data quality and file checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependencies
+        run: pip install pytest
+
+      - name: Validate pipeline JSON
+        run: |
+          shopt -s nullglob
+          for f in pipelines/data-factory/*.json; do
+            python -m json.tool "$f" > /dev/null
+            echo "OK $f"
+          done
+
+      - name: Run data quality tests
+        run: pytest -v tests
