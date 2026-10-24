@@ -11,14 +11,14 @@ sales, inventory and customer KPIs within five minutes of each transaction.
 
 | Member | Student ID | Responsibilities |
 |---|---|---|
-| Gazi Md Tarequr Rahman | 68765 | Charter, scope, WBS, schedule, resources; GitHub Projects board |
-| Atirikta Pokharel | 66660 | Risk, issues, change control, communication, quality; repository set-up |
+| Gazi Md Tarequr Rahman | 68765 | Charter, scope, WBS, schedule, resources |
+| Atirikta Pokharel | 66660 | Risk, issues, change control, communication, quality; repository and GitHub Projects board set-up |
 
 ## Repository structure
 
 | Folder | Configuration items |
 |---|---|
-| `docs/assessment` | Project report, presentation, script and Gantt chart |
+| `docs/assessment` | Gantt chart (the project report itself is submitted through Turnitin and is not stored here) |
 | `docs/planning` | KPI dictionary, risk register, issue log, change log |
 | `infrastructure` | Azure resource definitions (Bicep) |
 | `pipelines` | Stream Analytics query and Data Factory batch pipeline |
